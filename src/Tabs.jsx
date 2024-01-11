@@ -14,7 +14,7 @@ function Tabs() {
       <div>
         {toggle===2&&<MetricForms />}
         {toggle===1&&<UsForms />}
-        <p>Your BMR<span className="badge rounded-pill text-bg-danger">{result}</span><span>{unit}</span></p>
+        <p className="bmrTxt">Your BMR <span className="bdge">{result}</span> <span>{result&&unit}</span></p>
 
       </div>
     </>                

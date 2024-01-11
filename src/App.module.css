@@ -1,7 +1,8 @@
 .containerApp{
-    background-color: #2980b9;
+    background-color: #1e1f5d;
     width: 800px;
     padding: 25px;
     margin: 50px auto;
+    color: #fff !important;
 
 }

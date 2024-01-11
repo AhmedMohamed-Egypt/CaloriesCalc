@@ -27,7 +27,29 @@ label,input[type='radio'],.setting{
   justify-content:center;
 }
 button.active{
-  background-color: #d35400 !important;
+  background-color: #34e911 !important;
   border: none !important;
 }
 
+.bmrTxt{
+  font-size: 22px;
+  font-weight: 500;
+}
+.bdge{
+  color: #f7f107;
+}
+label{
+  margin-right: 15px;
+}
+.gndr{
+  margin-right: 10px !important;
+}
+
+h3{
+  margin-bottom: 25px !important;
+}
+input:focus{
+  outline: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
