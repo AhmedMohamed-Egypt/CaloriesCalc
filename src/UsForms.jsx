@@ -1,9 +1,12 @@
 import Form from "./Form"
 
-function UsForms() {
+
+function MetricForms() {
     return (
-     <Form/>
+        <Form HeightUnit="Feet" inch = "Inch" showFeet={true}>
+       
+     </Form>
     )
 }
 
-export default UsForms
+export default MetricForms

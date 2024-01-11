@@ -26,4 +26,8 @@ label,input[type='radio'],.setting{
   display: flex !important;
   justify-content:center;
 }
+button.active{
+  background-color: #d35400 !important;
+  border: none !important;
+}
 

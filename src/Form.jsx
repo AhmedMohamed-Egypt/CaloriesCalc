@@ -1,7 +1,10 @@
+import { UseCalories } from "./CaloriesContext"
 import Radio from "./Radio"
 import Setting from "./Setting"
 
-function Form() {
+
+function Form({HeightUnit,showFeet,inch}) {
+  const {collectuserObject,userObject,calcluateCalories} = UseCalories()
     return (
         <form action="">
         <div className="row g-3 align-items-center mb-2 mt-3">
@@ -9,7 +12,7 @@ function Form() {
 <label htmlFor="inputPassword6" className="col-form-label">Age</label>
 </div>
 <div className="col-auto">
-<input type="text" id="inputPassword6" className="form-control" aria-describedby="passwordHelpInline"/>
+<input type="text" id="inputPassword6" placeholder="Age" className="form-control" aria-describedby="passwordHelpInline" value={userObject.age} onChange={(e)=>{collectuserObject({...userObject,age:+e.target.value})}}/>
 </div>
 <div className="col-auto">
 <span id="passwordHelpInline" className="form-text">
@@ -19,25 +22,28 @@ function Form() {
 </div>
 <div className="d-flex align-items-center mb-2">
 <p>Gender</p>
-<Radio title='Male' name={'gender'} txt={''} id={'male'}/>
-<Radio title='Female' name={'gender'} txt={''} id={'female'}/>
+<Radio title='Male' name={'gender'} txt={''}  id={'male'} value={'male'} onChange={(e)=>{collectuserObject({...userObject,gender:e.target.value})}}/>
+<Radio title='Female' name={'gender'} txt={''} id={'female'}value={'female'} onChange={(e)=>{collectuserObject({...userObject,gender:e.target.value})}}/>
 
 </div>
 <div>
 <div className="input-group mb-3 d-flex align-items-center mt-3">
   <label htmlFor="">Height</label>
-  <input type="text" className="form-control" placeholder="Height" aria-label="Username" aria-describedby="basic-addon1"/>
+  <input type="text" className="form-control" placeholder={HeightUnit} onChange={(e)=>{collectuserObject({...userObject,height:+e.target.value})}} value={userObject.height} aria-label="Username" aria-describedby="basic-addon1"/>
+  {showFeet&&<input type="text" className="form-control" placeholder={inch} onChange={(e)=>e.target.value} value={""} aria-label="Username" aria-describedby="basic-addon1"/>}
   <span className="input-group-text" id="basic-addon1">@</span>
 </div>
 <div className="input-group mb-3 d-flex align-items-center mt-3">
   <label htmlFor="">Weight</label>
-  <input type="text" className="form-control" placeholder="Weight" aria-label="Username" aria-describedby="basic-addon1"/>
+  <input type="text" className="form-control" placeholder="Weight" value={userObject.weight} onChange={(e)=>{collectuserObject({...userObject,weight:+e.target.value})}} aria-label="Username" aria-describedby="basic-addon1"/>
   <span className="input-group-text" id="basic-addon1">@</span>
 </div>
 </div>
+
 <p className="setting text-white">Settings+</p>
-          <Setting/>
-<button type="submit" className="btn btn-success calcBtn">Calculate</button>
+        <Setting/>
+<button type="submit" onClick={(e)=>{e.preventDefault();calcluateCalories()}} className="btn btn-success calcBtn">Calculate</button>
+
     </form>
     )
 }
