@@ -4,7 +4,9 @@ import MetricForms from "./MetricForms";
 import UsForms from "./UsForms";
 
 function Tabs() {
-    const {toggle,provkeToggle,result,unit} = UseCalories()
+    const {toggle,provkeToggle,result,unit,errorList,errorsTxt} = UseCalories()
+    const Errors = errorList.length > 0
+    const errorNames = Errors  && errorList.map((item,index)=><span className="spanerror" key={index}>{item}</span>)
   return (
     <>
       <div className="d-flex align-items-cener justify-content-center">
@@ -15,7 +17,8 @@ function Tabs() {
         {toggle===2&&<MetricForms />}
         {toggle===1&&<UsForms />}
         <p className="bmrTxt">Your BMR <span className="bdge">{result}</span> <span>{result&&unit}</span></p>
-
+         <p className="errors"> {Errors&& <>Please Check <span>{errorNames}</span></> } </p>
+         {errorsTxt.map((item,index)=><p key={index}>{item===false?'':item}</p>)}
       </div>
     </>                
   );

@@ -1,8 +1,11 @@
 function calculteRevised(gender, calories, kJoules, weight, height, age){
 
+    
+
     let BMR;
     let unit;
     unit = calories ? 'Calories/Day' : 'KJoules/Day'
+   
     //FOR MEN
     //BMR = 13.397W + 4.799H - 5.677A + 88.362
     if(gender ==='male'){

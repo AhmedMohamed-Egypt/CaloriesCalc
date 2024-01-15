@@ -9,12 +9,15 @@ const initialState = {
     age: "",
     height: "",
     weight: "",
-    equation: "",
+    equation:"",
     gender: "",
-    BMRFormula: "",
+    unit:""
+
   },
   result: "",
-  unit:''
+  unit:'',
+  errorList:[],
+  errorsTxt:[],
 };
 function reducer(snState, action) {
   switch (action.type) {
@@ -22,6 +25,8 @@ function reducer(snState, action) {
       return { ...snState, toggle: action.payload };
     }
     case "collectMale": {
+
+      
       return { ...snState, userObject: action.payload };
     }
     case "calc": {
@@ -33,14 +38,41 @@ function reducer(snState, action) {
      
       const calories = snState.userObject.unit === "calories" && 1;
       const kJoules = snState.userObject.unit === "kJoules" && 4.15;
-      const height = snState.userObject.height
-      const weight = snState.userObject.weight
+      const height = +snState.userObject.height
+      const weight = snState.userObject.weight 
       const age = snState.userObject.age
-      const equation = snState.userObject.euqation
+      const equation = snState.userObject.equation
       const gender = snState.userObject.gender
       let myresult =  {BMR:'',unit:''};
+      const userData = Object.keys(snState.userObject).map((key)=>{return {key:key,value:snState.userObject[key]}})
+      
+      const errors = userData.reduce((acc,cur)=>{
+        if(cur.value === "" || !cur.value ){
+          
+            return [...acc,cur.key]   
+          
+        
+        }else {
+          return [...acc]
+        }
+      },[])
 
+       const lessAge = age < 5 && 'Please Fill Age greater than 5' 
+       const maxAge = age > 110 && 'Please Fill Age Less Than 110'  
+       const  lessHeight  = height<120 && 'Please Fill Height greater than 120'
+       const higherHight = height > 300 && 'Please Fill Height lessThan than 300'
+       const minWeight = weight < 25 && 'Please Fill Weight geater than 25'
+       const maxWeight = weight > 200 && 'Please Fill Weight lessThan than 200'
 
+      
+
+      
+     
+ 
+      const noErros = errors.length === 0 && !lessAge && !maxAge && !lessHeight && !higherHight && !minWeight && !maxWeight
+    
+      
+   
       if(equation === 'mifflin'){
        myresult =  calcMifflin(gender,calories,kJoules,weight,height,age)
       
@@ -50,7 +82,7 @@ function reducer(snState, action) {
       }
 
      
-      return { ...snState, result: myresult.BMR,unit:myresult.unit };
+      return { ...snState, result: noErros && myresult.BMR,unit: noErros&& myresult.unit ,errorList:errors,errorsTxt:[lessAge,maxAge,lessHeight,higherHight,minWeight,maxWeight]};
     }
 
     default: {
@@ -60,7 +92,7 @@ function reducer(snState, action) {
 }
 
 function CaloriesProvider({ children }) {
-  const [{ toggle, userObject, result,unit }, dispatch] = useReducer(
+  const [{ toggle, userObject, result,unit,errorList ,errorsTxt}, dispatch] = useReducer(
     reducer,
     initialState
   );
@@ -84,7 +116,9 @@ function CaloriesProvider({ children }) {
         collectuserObject,
         calcluateCalories,
         result,
-        unit
+        unit,
+        errorList,
+        errorsTxt
       }}
     >
       {children}
