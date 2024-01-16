@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
 import { calcMifflin } from "./mifflin";
 import { calculteRevised } from "./revised";
+import { katch } from "./katch";
 
 const CaloriesContext = createContext();
 const initialState = {
@@ -11,13 +12,17 @@ const initialState = {
     weight: "",
     equation:"",
     gender: "",
-    unit:""
+    unit:"",
+    katchStatus:'notok'
+    
 
   },
   result: "",
   unit:'',
   errorList:[],
   errorsTxt:[],
+  bodyFat:"",
+ 
 };
 function reducer(snState, action) {
   switch (action.type) {
@@ -26,8 +31,14 @@ function reducer(snState, action) {
     }
     case "collectMale": {
 
+      const resetErrors = action.payload.equation === 'katch'&&[] || []
       
-      return { ...snState, userObject: action.payload };
+     
+      return { ...snState, userObject: action.payload,errorList:resetErrors,errorsTxt:resetErrors,result:""};
+    }
+    case "bodyFat":{
+        
+        return {...snState,bodyFat:action.payload}
     }
     case "calc": {
       //Mifflin-St Jeor Equation:
@@ -43,11 +54,12 @@ function reducer(snState, action) {
       const age = snState.userObject.age
       const equation = snState.userObject.equation
       const gender = snState.userObject.gender
+      const bodyFat = snState.bodyFat
       let myresult =  {BMR:'',unit:''};
       const userData = Object.keys(snState.userObject).map((key)=>{return {key:key,value:snState.userObject[key]}})
       
-      const errors = userData.reduce((acc,cur)=>{
-        if(cur.value === "" || !cur.value ){
+      const errors = equation!=="katch" ? userData.reduce((acc,cur)=>{
+        if(cur.value === "" || !cur.value  ){
           
             return [...acc,cur.key]   
           
@@ -55,7 +67,7 @@ function reducer(snState, action) {
         }else {
           return [...acc]
         }
-      },[])
+      },[]):[]
 
        const lessAge = age < 5 && 'Please Fill Age greater than 5' 
        const maxAge = age > 110 && 'Please Fill Age Less Than 110'  
@@ -63,13 +75,14 @@ function reducer(snState, action) {
        const higherHight = height > 300 && 'Please Fill Height lessThan than 300'
        const minWeight = weight < 25 && 'Please Fill Weight geater than 25'
        const maxWeight = weight > 200 && 'Please Fill Weight lessThan than 200'
-
+       const generalError = equation !== "katch" ? [lessAge,maxAge,lessHeight,higherHight,minWeight,maxWeight] :[]
+       
+       const commonError = errors.length === 0 && !lessAge && !maxAge && !lessHeight && !higherHight && !minWeight && !maxWeight
+       const errorKatch = bodyFat && weight 
       
-
       
-     
  
-      const noErros = errors.length === 0 && !lessAge && !maxAge && !lessHeight && !higherHight && !minWeight && !maxWeight
+      const noErros = equation !== "katch" ?  commonError : errorKatch
     
       
    
@@ -80,9 +93,12 @@ function reducer(snState, action) {
       if(equation === 'revised'){
         myresult = calculteRevised(gender,calories,kJoules,weight,height,age)
       }
+      if(equation === "katch"){
+        myresult =  katch(gender, calories, kJoules, weight,bodyFat)
+      }
 
      
-      return { ...snState, result: noErros && myresult.BMR,unit: noErros&& myresult.unit ,errorList:errors,errorsTxt:[lessAge,maxAge,lessHeight,higherHight,minWeight,maxWeight]};
+      return { ...snState, result: noErros && myresult.BMR,unit: noErros&& myresult.unit ,errorList:errors,errorsTxt:generalError};
     }
 
     default: {
@@ -92,7 +108,7 @@ function reducer(snState, action) {
 }
 
 function CaloriesProvider({ children }) {
-  const [{ toggle, userObject, result,unit,errorList ,errorsTxt}, dispatch] = useReducer(
+  const [{ toggle, userObject, result,unit,errorList ,errorsTxt,bodyFat}, dispatch] = useReducer(
     reducer,
     initialState
   );
@@ -106,6 +122,10 @@ function CaloriesProvider({ children }) {
   function calcluateCalories() {
     dispatch({ type: "calc" });
   }
+  function getBodyFat(bodyFat){
+    
+    dispatch({type:'bodyFat',payload:bodyFat})
+  }
 
   return (
     <CaloriesContext.Provider
@@ -118,7 +138,10 @@ function CaloriesProvider({ children }) {
         result,
         unit,
         errorList,
-        errorsTxt
+        errorsTxt,
+        bodyFat,
+        getBodyFat,
+        
       }}
     >
       {children}

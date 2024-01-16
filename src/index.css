@@ -64,3 +64,10 @@ input:focus{
   font-weight: 500;
   text-transform: capitalize;
 }
+.katchFormula{
+  color: #ff5d5d;
+  font-style: italic;
+}
+.errorInput{
+  border: 2px solid #ff5d5d !important;
+}

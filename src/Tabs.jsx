@@ -4,7 +4,7 @@ import MetricForms from "./MetricForms";
 import UsForms from "./UsForms";
 
 function Tabs() {
-    const {toggle,provkeToggle,result,unit,errorList,errorsTxt} = UseCalories()
+    const {toggle,provkeToggle,result,unit,errorList,errorsTxt,userObject} = UseCalories()
     const Errors = errorList.length > 0
     const errorNames = Errors  && errorList.map((item,index)=><span className="spanerror" key={index}>{item}</span>)
   return (
@@ -19,6 +19,7 @@ function Tabs() {
         <p className="bmrTxt">Your BMR <span className="bdge">{result}</span> <span>{result&&unit}</span></p>
          <p className="errors"> {Errors&& <>Please Check <span>{errorNames}</span></> } </p>
          {errorsTxt.map((item,index)=><p key={index}>{item===false?'':item}</p>)}
+         {userObject.katchStatus==='ok'&&<p className="katchFormula">in Katch Formula no need for Age Or Height </p>}
       </div>
     </>                
   );
