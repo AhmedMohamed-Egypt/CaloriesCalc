@@ -74,10 +74,10 @@ function reducer(snState, action) {
 
        const lessAge = age < 5 && 'Please Fill Age greater than 5' 
        const maxAge = age > 110 && 'Please Fill Age Less Than 110'  
-       const  lessHeight  = toggleState === 'metric' &&  height<120 && 'Please Fill Height greater than 120'
-       const higherHight = toggleState === 'metric' &&  height > 300 && 'Please Fill Height lessThan than 300'
-       const minWeight = weight < 25 && 'Please Fill Weight geater than 25'
-       const maxWeight = weight > 200 && 'Please Fill Weight lessThan than 200'
+       const  lessHeight  = toggleState === 'metric' &&  height<120 && 'Please Fill Height greater than 120 Cm'
+       const higherHight = toggleState === 'metric' &&  height > 300 && 'Please Fill Height lessThan than 300 Cm'
+       const minWeight = toggleState === 'metric' &&  weight < 25 && 'Please Fill Weight geater than 25 Kg'
+       const maxWeight = toggleState === 'metric'&&  weight > 200 && 'Please Fill Weight lessThan than 200 Kg'
        const generalError = equation !== "katch" ? [lessAge,maxAge,lessHeight,higherHight,minWeight,maxWeight] :[]
        
        const commonError = errors.length === 0 && !lessAge && !maxAge && !lessHeight && !higherHight && !minWeight && !maxWeight
