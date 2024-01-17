@@ -1,7 +1,7 @@
 import styles from './App.module.css'
 import { CaloriesProvider } from './CaloriesContext'
 import Tabs from './Tabs'
-
+import './store'
 
 
 function App() {

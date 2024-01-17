@@ -5,7 +5,7 @@ import { katch } from "./katch";
 
 const CaloriesContext = createContext();
 const initialState = {
-  toggle: 1,
+  toggle: 'us',
   userObject: {
     age: "",
     height: "",
@@ -13,7 +13,8 @@ const initialState = {
     equation:"",
     gender: "",
     unit:"",
-    katchStatus:'notok'
+    katchStatus:'notok',
+    heightInch:" "
     
 
   },
@@ -27,7 +28,7 @@ const initialState = {
 function reducer(snState, action) {
   switch (action.type) {
     case "provoke": {
-      return { ...snState, toggle: action.payload };
+      return { ...snState, toggle: action.payload,userObject:initialState.userObject,result:"",unit:"",errorList:[],errorsTxt:[],bodyFat:""};
     }
     case "collectMale": {
 
@@ -57,6 +58,8 @@ function reducer(snState, action) {
       const bodyFat = snState.bodyFat
       let myresult =  {BMR:'',unit:''};
       const userData = Object.keys(snState.userObject).map((key)=>{return {key:key,value:snState.userObject[key]}})
+      const toggleState = snState.toggle
+      const heightInch = snState.userObject.heightInch
       
       const errors = equation!=="katch" ? userData.reduce((acc,cur)=>{
         if(cur.value === "" || !cur.value  ){
@@ -71,8 +74,8 @@ function reducer(snState, action) {
 
        const lessAge = age < 5 && 'Please Fill Age greater than 5' 
        const maxAge = age > 110 && 'Please Fill Age Less Than 110'  
-       const  lessHeight  = height<120 && 'Please Fill Height greater than 120'
-       const higherHight = height > 300 && 'Please Fill Height lessThan than 300'
+       const  lessHeight  = toggleState === 'metric' &&  height<120 && 'Please Fill Height greater than 120'
+       const higherHight = toggleState === 'metric' &&  height > 300 && 'Please Fill Height lessThan than 300'
        const minWeight = weight < 25 && 'Please Fill Weight geater than 25'
        const maxWeight = weight > 200 && 'Please Fill Weight lessThan than 200'
        const generalError = equation !== "katch" ? [lessAge,maxAge,lessHeight,higherHight,minWeight,maxWeight] :[]
@@ -87,14 +90,14 @@ function reducer(snState, action) {
       
    
       if(equation === 'mifflin'){
-       myresult =  calcMifflin(gender,calories,kJoules,weight,height,age)
+       myresult =  calcMifflin(gender,calories,kJoules,weight,height,age,toggleState,heightInch)
       
       }
       if(equation === 'revised'){
-        myresult = calculteRevised(gender,calories,kJoules,weight,height,age)
+        myresult = calculteRevised(gender,calories,kJoules,weight,height,age,toggleState,heightInch)
       }
       if(equation === "katch"){
-        myresult =  katch(gender, calories, kJoules, weight,bodyFat)
+        myresult =  katch(gender, calories, kJoules, weight,bodyFat,toggleState,heightInch)
       }
 
      

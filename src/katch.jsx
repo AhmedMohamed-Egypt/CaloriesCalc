@@ -5,7 +5,7 @@ function katch (gender, calories, kJoules, weight,bodyFat){
    if(gender === "male" || gender === "female"){
     const calcBodyFat = (+bodyFat / 100)
     console.log( calcBodyFat)
-    BMR =Math.max((370 + 21.6*(1 - calcBodyFat) * weight)) *  ((calories || 1) * (kJoules || 1)).toFixed(1) 
+    BMR =Math.ceil((370 + 21.6*(1 - calcBodyFat) * weight)) *  ((calories || 1) * (kJoules || 1))
    }
   
  

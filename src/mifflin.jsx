@@ -1,12 +1,15 @@
-function calcMifflin(gender, calories, kJoules, weight, height, age) {
+function calcMifflin(gender, calories, kJoules, weight, height, age,toggleState,heightInch) {
   let BMR;
   let unit;
+  const modifiedWeight = toggleState==="us"?(weight * 0.453592):weight
+  const modifiedHeight = toggleState==="us"?((height * 30.48) + (heightInch * 2.54)):height
+ 
   unit = calories ? 'Calories/Day' : 'KJoules/Day'
   switch (gender) {
     case "male":
       {
         BMR =
-          Math.max((10 * weight) + (6.25 * height) - (5 * age) + 5) *
+          Math.max((10 * (modifiedWeight)) + (6.25 * (modifiedHeight)) - (5 * age) + 5) *
             ((calories || 1) * (kJoules || 1)).toFixed(1) 
         
       }
@@ -14,7 +17,7 @@ function calcMifflin(gender, calories, kJoules, weight, height, age) {
     case "female":
       {
         BMR =
-          Math.max((10 * weight) + (6.25 * height) - (5 * age) - 161) *
+          Math.max((10 * (modifiedWeight)) + (6.25 * modifiedHeight) - (5 * age) - 161) *
             ((calories || 1) * (kJoules || 1)).toFixed(1)
       }
       break;

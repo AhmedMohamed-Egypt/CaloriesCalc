@@ -32,7 +32,7 @@ function Form({HeightUnit,showFeet,inch,uH,uW}) {
   <input disabled={userObject.katchStatus==='ok'?true:false} type="text" className="form-control" placeholder={HeightUnit} onChange={(e)=>{collectuserObject({...userObject,height:e.target.value})}} value={userObject.height} aria-label="Username" aria-describedby="basic-addon1"/>
   <span className="input-group-text" id="basic-addon1">{uH}</span>
   {showFeet&&<>
-    <input type="text" className="form-control" placeholder={inch} onChange={(e)=>e.target.value} value={""} aria-label="Username" aria-describedby="basic-addon1"/>
+    <input type="text" className="form-control" placeholder={inch} onChange={(e)=>collectuserObject({...userObject,heightInch:e.target.value})} value={userObject.heightInch} aria-label="Username" aria-describedby="basic-addon1"/>
   <span className="input-group-text" id="basic-addon1">{inch}</span>
   </>
   }
