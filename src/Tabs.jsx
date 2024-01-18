@@ -2,6 +2,10 @@
 import { UseCalories } from "./CaloriesContext";
 import MetricForms from "./MetricForms";
 import UsForms from "./UsForms";
+import { NumericFormat } from 'react-number-format';
+
+
+
 
 function Tabs() {
     const {toggle,provkeToggle,result,unit,errorList,errorsTxt,userObject} = UseCalories()
@@ -16,7 +20,7 @@ function Tabs() {
       <div>
         {toggle==='metric'&&<MetricForms />}
         {toggle==='us'&&<UsForms />}
-        <p className="bmrTxt">Your BMR <span className="bdge">{result}</span> <span>{result&&unit}</span></p>
+        <p className="bmrTxt">Your BMR <span className="bdge">{<NumericFormat value={result||""}   displayType="text" thousandsGroupStyle="lakh"  thousandSeparator="," />}</span> <span>{result&&unit}</span></p>
          <p className="errors"> {Errors&& <>Please Check <span>{errorNames}</span></> } </p>
          {errorsTxt.map((item,index)=><p key={index}>{item===false?'':item}</p>)}
          {userObject.katchStatus==='ok'&&<p className="katchFormula">in Katch Formula no need for Age Or Height </p>}

@@ -9,16 +9,16 @@ function calcMifflin(gender, calories, kJoules, weight, height, age,toggleState,
     case "male":
       {
         BMR =
-          Math.max((10 * (modifiedWeight)) + (6.25 * (modifiedHeight)) - (5 * age) + 5) *
-            ((calories || 1) * (kJoules || 1)).toFixed(1) 
+         ((10 * modifiedWeight) + (6.25 * (modifiedHeight)) - (5 * age) + 5) *
+            ((calories || 1) * (kJoules || 1)).toFixed(0)
         
       }
       break;
     case "female":
       {
         BMR =
-          Math.max((10 * (modifiedWeight)) + (6.25 * modifiedHeight) - (5 * age) - 161) *
-            ((calories || 1) * (kJoules || 1)).toFixed(1)
+          ((10 * (modifiedWeight)) + (6.25 * modifiedHeight) - (5 * age) - 161) *
+            ((calories || 1) * (kJoules || 1)).toFixed(0)
       }
       break;
 
