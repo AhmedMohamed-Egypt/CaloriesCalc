@@ -9,16 +9,18 @@ function calcMifflin(gender, calories, kJoules, weight, height, age,toggleState,
     case "male":
       {
         BMR =
+        Math.trunc(
          ((10 * modifiedWeight) + (6.25 * (modifiedHeight)) - (5 * age) + 5) *
             ((calories || 1) * (kJoules || 1)).toFixed(0)
-        
+            )
       }
       break;
     case "female":
       {
-        BMR =
+        BMR =Math.trunc(
           ((10 * (modifiedWeight)) + (6.25 * modifiedHeight) - (5 * age) - 161) *
             ((calories || 1) * (kJoules || 1)).toFixed(0)
+        )
       }
       break;
 

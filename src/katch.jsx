@@ -6,7 +6,7 @@ function katch (gender, calories, kJoules, weight,bodyFat,toggleState){
    if(gender === "male" || gender === "female"){
     const calcBodyFat = (+bodyFat / 100)
     
-    BMR =(((370 + (21.6 * (1 - calcBodyFat)) * modifiedWeight)) *  ((calories || 1) * (kJoules || 1))).toFixed(0)
+    BMR =Math.trunc( (((370 + (21.6 * (1 - calcBodyFat)) * modifiedWeight)) *  ((calories || 1) * (kJoules || 1))))
    }
   
  
